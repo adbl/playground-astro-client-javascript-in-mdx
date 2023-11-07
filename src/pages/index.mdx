@@ -1,6 +1,109 @@
 ---
-layout: "~/layouts/PlaygroundLayout.astro"
+layout: "@layouts/PlaygroundLayout.astro"
 date: 2023-11-01
 # description:
 # github: adbl/playground-...
 ---
+
+import Source from "./_app/Source.astro";
+import app from "./_app/app.astro";
+
+- There is some typescript that should be presented as a code block in mdx
+  markdown.
+- Same code should also be run in the browser on the page.
+
+### Solution
+
+1. Add `_app` folder next to the `.mdx` file. (`_` makes astro ignore for html
+   generation)
+
+2. Add `_app/Source.astro` component which reads and presents raw source code:
+
+```astro
+---
+import { Code } from "astro:components";
+
+export interface Props {
+  path: string;
+  lang: string;
+}
+
+const sources = await import.meta.glob(
+  [
+    // all the files we want to present on this page, relative to `./_app/`
+    "./*.{ts,tsx}",
+    "./maybe-a-rust-project-too/src/*.rs",
+    "../*.mdx", // this page itself even!
+    "./*.astro", // but doesn't include the own module 🤷😢
+  ],
+  {
+    as: "raw",
+    eager: true,
+  }
+);
+
+const { path, lang } = Astro.props;
+---
+
+<>
+  <Code code={sources[path]} lang={lang as any} />
+</>
+```
+
+3. Write some cool code, e.g. `_app/app.ts`:
+
+<Source path="./app.ts" lang="ts" />
+
+4. Add an astro component which includes the script, `_app/app.astro`:
+
+<Source path="./app.astro" lang="astro" />
+
+5. Import and use `<Source>` component in the `.mdx` file (I just did this in
+   steps 3 and 4 🤩):
+
+```mdx
+import Source from "./_app/Source.astro";
+
+...
+
+3. Write some cool code, e.g. `_app/app.ts`:
+
+<Source path="./app.ts" lang="ts" />
+
+4. Add an astro component which includes the script, `_app/app.astro`:
+
+<Source path="./app.astro" lang="astro" />
+
+...
+```
+
+5. Import and add the `<app>` component to `.mdx` file:
+
+```mdx
+import app from "./_app/app.astro";
+
+...
+
+<app />
+
+...
+```
+
+<app />
+
+TypeScript gets compiled, imports resolved, and the script is run in the
+browser.
+
+6. Add element the script can interact with:
+
+```html
+epoch seconds: <span id="epoch-seconds"></span>
+```
+
+➡️ epoch seconds: <span id="epoch-seconds"></span>
+
+7. 🥳
+
+### Caveats?
+
+Probably.

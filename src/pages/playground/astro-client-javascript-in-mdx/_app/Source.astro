@@ -6,11 +6,11 @@ export interface Props {
   lang: string;
 }
 
-const sources = await import.meta.glob(
+const sources = import.meta.glob(
   [
     // all the code we want to present on this page
     "./*.{ts,tsx}",
-    "./maybe-a-rust-project-too/src/*.rs",
+    "../../../../../maybe-a-rust-project-too/src/*.rs",
     "../*.mdx", // this page itself even 🤯
     "./*.astro", // doesn't include source.astro 😢
   ],
@@ -23,6 +23,4 @@ const sources = await import.meta.glob(
 const { path, lang } = Astro.props;
 ---
 
-<>
-  <Code code={sources[path]} lang={lang as any} />
-</>
+<Code code={sources[path]} lang={lang as any} />

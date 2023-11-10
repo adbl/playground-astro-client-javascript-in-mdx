@@ -1,4 +1,4 @@
-Playground page: [src/pages/playground/template/index.mdx](src/pages/playground/template/index.mdx)
+Playground page: [src/pages/playground/astro-client-javascript-in-mdx/index.mdx](src/pages/playground/astro-client-javascript-in-mdx/index.mdx)
 
 ## Commands
 

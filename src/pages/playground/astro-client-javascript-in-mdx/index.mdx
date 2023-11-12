@@ -32,7 +32,7 @@ const sources = await import.meta.glob(
   [
     // all the files we want to present on this page, relative to `./_app/`
     "./*.{ts,tsx}",
-    "./maybe-a-rust-project-too/src/*.rs",
+    "../../../../../maybe-a-rust-project-too/src/*.rs",
     "../*.mdx", // this page itself even!
     "./*.astro", // but doesn't include the own module 🤷😢
   ],

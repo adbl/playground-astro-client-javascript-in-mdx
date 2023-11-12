@@ -11,8 +11,8 @@ const sources = import.meta.glob(
     // all the code we want to present on this page
     "./*.{ts,tsx}",
     "../../../../../maybe-a-rust-project-too/src/*.rs",
-    "../*.mdx", // this page itself even 🤯
-    "./*.astro", // doesn't include source.astro 😢
+    "../*.mdx", // this page itself even!
+    "./*.astro", // but doesn't include the own module 🤷😢
   ],
   {
     as: "raw",
